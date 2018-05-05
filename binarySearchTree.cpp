@@ -237,57 +237,34 @@ void BinarySearchTree<T>::remove(T data) {
              * 1. find min node in right subtree
              * 2. find max node in left subtree
              */
-                      
-            if (parrentNode == nullptr) {
-                return ;
-            }
-            else {
+            { 
                 Node<T> *swapNode = removeNode->left;
                 Node<T> *swapParrent = removeNode;    // swapNode's parrent node
-                
+
                 while(swapNode->right != nullptr)
                 {
                     swapParrent = swapNode;
                     swapNode = swapNode->right;
                 }
-                
-                std::cout << swapParrent->data << std::endl;
-                std::cout << swapNode->data << std::endl;
-				std::cout << removeNode->data << std::endl;
-                                
-				// need to fix Situation that swapParent == removeNode !!
-				return ;
-				
-				swapParrent->right = swapNode->left;
-				swapNode->left = removeNode->left;
-				swapNode->right = removeNode->right;
-				
-				/*
-                if (parrentNode->left == removeNode) {
-					
-                    swapNode->left = removeNode->left;
-                    swapNode->right = removeNode->right;
-                    parrentNode->left = swapNode;
-                    swapParrent->right = nullptr;
-                    removeNode->left = nullptr;
-                    removeNode->right = nullptr;
 
+                while (swapNode->left != nullptr )
+                {
+                    swapParrent = swapNode;
+                    swapNode = swapNode->left;
                 }
-                else {					
-                    swapNode->left = removeNode->left;
-                    swapNode->right = removeNode->right;
-                    parrentNode->right = swapNode;
+
+                removeNode->data = swapNode->data;
+                if (swapParrent->left == swapNode)
+                    swapParrent->left = nullptr;
+                else
                     swapParrent->right = nullptr;
-                    removeNode->left = nullptr;
-                    removeNode->right = nullptr;
-                }
-				*/
-                
+
+                delete swapNode;
+                decreaseElementCount();
+
+                return ;
             }
-
-            delete removeNode;
-            break;
-            
+                
         default:    // Case: never happened
             std::cout << "???? WHOOPS ????" << std::endl;
             break;
@@ -351,6 +328,7 @@ int main() {
     tree.insert(3);
     tree.insert(2);
     tree.insert(1);
+    tree.insert(0);
     
     //std::cout << tree.find(4) << std::endl;
 
@@ -358,8 +336,8 @@ int main() {
     // tree.inorderTraversal();
     // tree.postorderTraversal();
     
-    //tree.remove(100);
-	tree.remove(5);
+    tree.remove(1);
+	tree.remove(0);
 
 	
     //tree.remove(1);
